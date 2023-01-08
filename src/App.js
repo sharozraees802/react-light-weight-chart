@@ -5,6 +5,7 @@ import { ChartComponent } from "./components/ChartComponent";
 
 function App() {
   const [graphdata, Setgraphdata] = useState([]);
+  const [bgraphdata, Setbgraphdata] = useState([]);
 
   //   const initialData = [
   // 	{ time: '2018-12-22', value: 32.51 },
@@ -28,7 +29,7 @@ function App() {
         const cdata = response.data.split("\n").map((row) => {
           const [time1, time2, open, high, low, close] = row.split(",");
           return {
-            time: new Date(`${time1}, ${time2}`).getTime() / 1000,
+            time: new Date(`${time1}, ${time2}`).getTime() / 1000,	
             open: open * 1,
             high: high * 1,
             low: low * 1,
@@ -38,12 +39,30 @@ function App() {
           Setgraphdata(cdata)
 		});
 	},[]);
+
+	useEffect(() => {
+		axios
+		  .get(
+			"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1000"
+		  )
+		  .then((response) => {
+			
+			const sdata = response.data.map(d=>{
+				return{time:d[0]/1000,open:parseFloat(d[1]),high:parseFloat(d[1]),low:parseFloat(d[3]),close:parseFloat(d[4])}
+			})
+			console.log(response.data)
+			Setbgraphdata(sdata)
+			});
+		});
 	
-	console.log("🚀 ~ file: App.js:46 ~ cdata ~ graphdata", graphdata);
   return (
     <div className="App">
       {/* <ChartComponent data={initialData} /> */}
+	  <h1>csv</h1>
       <ChartComponent data={graphdata} />
+	  <h1>binance</h1>
+
+      <ChartComponent data={bgraphdata} />
     </div>
   );
 }
