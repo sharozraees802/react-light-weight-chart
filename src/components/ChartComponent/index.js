@@ -22,7 +22,8 @@ export const ChartComponent = props => {
 			});
 			chart.timeScale().fitContent();
 
-			const newSeries = chart.addAreaSeries({ topColor: "green", bottomColor: "yellow" });
+			// const newSeries = chart.addAreaSeries({ topColor: "green", bottomColor: "yellow" });
+			const newSeries = chart.addCandlestickSeries({ topColor: "green", bottomColor: "yellow" });
 			newSeries.setData(data);
 
 			window.addEventListener('resize', handleResize);
