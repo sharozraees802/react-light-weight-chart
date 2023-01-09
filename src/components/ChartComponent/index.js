@@ -3,6 +3,9 @@ import React, { useEffect, useRef } from 'react';
 export const ChartComponent = props => {
 	const {
 		data,
+		data1,
+		data2,
+		data3,
 	} = props;
 	const chartContainerRef = useRef();
 
@@ -25,6 +28,15 @@ export const ChartComponent = props => {
 			// const newSeries = chart.addAreaSeries({ topColor: "green", bottomColor: "yellow" });
 			const newSeries = chart.addCandlestickSeries({ topColor: "green", bottomColor: "yellow" });
 			newSeries.setData(data);
+
+			const newSeries1 = chart.addCandlestickSeries({ topColor: "green", bottomColor: "yellow" });
+			newSeries1.setData(data1);
+
+			const newSeries2 = chart.addCandlestickSeries({ topColor: "green", bottomColor: "yellow" });
+			newSeries2.setData(data2);
+
+			const newSeries3 = chart.addCandlestickSeries({ topColor: "green", bottomColor: "yellow" });
+			newSeries3.setData(data3);
 
 			window.addEventListener('resize', handleResize);
 

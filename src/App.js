@@ -5,6 +5,11 @@ import { ChartComponent } from "./components/ChartComponent";
 
 function App() {
   const [graphdata, Setgraphdata] = useState([]);
+
+  const [fgraphdata, Setfgraphdata] = useState([]);
+  const [sgraphdata, Setsgraphdata] = useState([]);
+  const [dgraphdata, Setdgraphdata] = useState([]);
+
   const [bgraphdata, Setbgraphdata] = useState([]);
 
   //   const initialData = [
@@ -20,6 +25,7 @@ function App() {
   // 	{ time: '2018-12-31', value: 22.67 },
   // ];
 
+  // first
   useEffect(() => {
     axios
       .get(
@@ -40,6 +46,8 @@ function App() {
 		});
 	},[]);
 
+
+  // binance
 	useEffect(() => {
 		axios
 		  .get(
@@ -54,12 +62,66 @@ function App() {
 			Setbgraphdata(sdata)
 			});
 		});
+
+
+    // second
+
+    useEffect(() => {
+      axios
+        .get(
+        "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1000"
+        )
+        .then((response) => {
+        
+        const sdata = response.data.map(d=>{
+          return{time:d[0]/1000,open:parseFloat(d[1]),high:parseFloat(d[1]),low:parseFloat(d[3]),close:parseFloat(d[4])}
+        })
+        console.log(response.data)
+        Setfgraphdata(sdata)
+        });
+      });
+
+
+      // third
+
+      useEffect(() => {
+        axios
+          .get(
+          "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1000"
+          )
+          .then((response) => {
+          
+          const sdata = response.data.map(d=>{
+            return{time:d[0]/1000,open:parseFloat(d[1]),high:parseFloat(d[1]),low:parseFloat(d[3]),close:parseFloat(d[4])}
+          })
+          console.log(response.data)
+          Setsgraphdata(sdata)
+          });
+        });
+
+// fourth
+        useEffect(() => {
+          axios
+            .get(
+            "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1000"
+            )
+            .then((response) => {
+            
+            const sdata = response.data.map(d=>{
+              return{time:d[0]/1000,open:parseFloat(d[1]),high:parseFloat(d[1]),low:parseFloat(d[3]),close:parseFloat(d[4])}
+            })
+            console.log(response.data)
+            Setdgraphdata(sdata)
+            });
+          });
+
+
 	
   return (
     <div className="App">
       {/* <ChartComponent data={initialData} /> */}
 	  <h1>csv</h1>
-      <ChartComponent data={graphdata} />
+      <ChartComponent data={graphdata} data1={fgraphdata} data2={sgraphdata} data3={dgraphdata} />
 	  <h1>binance</h1>
 
       <ChartComponent data={bgraphdata} />
